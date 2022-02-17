@@ -17,13 +17,16 @@ var fight = function (enemyName) {
             var confirmSkip = window.confirm("Are you sure you'd like to quit?");
             if (confirmSkip) {
                 window.alert(playerName + " has decided to skip this fight. Goodbye!");
-                playerMoney = playerMoney - 10;
+                playerMoney = Math.max(0, playerMoney - 10);
                 console.log("playerMoney", playerMoney)
                 break;
             }
         }
+        var damage = randomNumber(playerAttack - 3, playerAttack);
 
-        enemyHealth = enemyHealth - playerAttack;
+
+
+        enemyHealth = Math.max(0, enemyHealth - damage);
 
         console.log(
             playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining."
@@ -40,8 +43,9 @@ var fight = function (enemyName) {
         else {
             window.alert(enemyName + " still has " + enemyHealth + " health left.");
         }
+        var damage = randomNumber(enemyAttack - 3, enemyAttack);
 
-        playerHealth = playerHealth - enemyAttack;
+        playerHealth = Math.max(0, playerHealth - damage);
 
         console.log(
             enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining."
@@ -86,7 +90,7 @@ var startGame = function () {
         }
         var pickedEnemyName = enemyNames[i];
 
-        enemyHealth = 50;
+        enemyHealth = randomNumber(40,60);
 
         fight(pickedEnemyName);
     }
@@ -121,7 +125,7 @@ var shop = function () {
             if (playerMoney >= 7) {
                 window.alert("Refilling player's health by 20 for 7 dollars.");
                 playerHealth = playerHealth + 20;
-                playerMoney = playerMoney - 7;
+                playerMoney = Math.max( 0, playerMoney - 7);
             }
             else {
                 window.alert("You don't have enough money!");
@@ -132,7 +136,7 @@ var shop = function () {
             if (playerMoney >= 7) {
                 window.alert("Upgrading player's attack by 6 for 7 dollars.");
                 playerAttack = playerAttack + 6;
-                playerMoney = playerMoney - 7;
+                playerMoney = Math.max(0, playerMoney - 7);
             }
             else {
                 window.alert("You don't have enough money!");
@@ -147,6 +151,12 @@ var shop = function () {
             shop();
             break;
     }
+}
+
+var randomNumber = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+
+    return value;
 }
 
 startGame();
